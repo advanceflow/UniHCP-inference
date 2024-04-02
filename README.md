@@ -1,6 +1,6 @@
 # UniHCP: A Unified Model for Human-Centric Perceptions
 
-## environment
+## Environment
 1. python3.7
 
 ## Changes to the Original Repo:
