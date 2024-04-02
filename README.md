@@ -1,12 +1,10 @@
 # UniHCP: A Unified Model for Human-Centric Perceptions
 
 ## Changes to the Original Repo:
-Follow and extract code from [batch_test.sh](experiments/unihcp/release/batch_test.sh) and [test.py](test.py) to create 
-simple-to-use non-slurm-based distributed single-gpu inference code for **human parsing** task, 
-in the format of
-1. jupyter notebook: check [inference.ipynb](inference.ipynb) for details
-2. python script (UniHCP-CIHP only): see [inference_for_dataset.py](inference_for_dataset.py) and check [run_inference_for_dataset.sh](run_inference_for_dataset.sh) for 
-example command to run.
+**human parsing** task, 
+run 
+```python single_gpu.py```
+directly
 
 
 # Original Documentation:
