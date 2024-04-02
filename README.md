@@ -1,9 +1,12 @@
 # UniHCP: A Unified Model for Human-Centric Perceptions
 
+## environment
+1. python3.7
+
 ## Changes to the Original Repo:
 **human parsing** task, 
 run 
-```python single_gpu.py```
+```python single_gpu_inference.py```
 directly
 
 

@@ -1,0 +1,816 @@
+deterministic mode, seed: 233, worker_rank: True,                                   cudnn_deterministic: False
+no mc
+ceph can not be used
+no mc
+no mc
+ceph can not be used
+no mc
+ceph can not be used
+Namespace(auto_resume=None, config='experiments/unihcp/release/coslr1e3_104k_b4324g88_h256_I2k_1_10_001_2I_fairscale_m256.yaml', expname='test_par_cihp_lpe', ignore=[], load_path='checkpoints/coslr1e3_104k_b4324g88_h256_I2k_1_10_001_2I_fairscale_m256/ckpt_task4_iter_newest.pth.tar', load_single=False, recover=False, spec_ginfo_index=4, test_config='experiments/unihcp/release/vd_par_cihp_lpe_test.yaml')
+[rank 0] >> task_info.group[0] ranks [0]
+[rank 0] >> task_info.root_group ranks [0]
+[rank 0] >> task_info.backbone_share_group[[0]] ranks [0]
+[rank 0] >> task_info.neck_share_group[[0]] ranks [0]
+[rank 0] >> task_info.decoder_share_group[[0]] ranks [0]
+[rank 0] backbone of task0 has been overided to {'type': 'vit_base_patch16', 'kwargs': {'task_sp_list': ['rel_pos_h', 'rel_pos_w'], 'pretrained': True, 'lms_checkpoint_train': 'fairscale', 'window': False, 'test_pos_mode': 'learnable_interpolate', 'learnable_pos': True, 'drop_path_rate': 0.2, 'img_size': 1344}}
+[rank 0] decoder of task0 has been overided to {'type': 'AIOHead', 'kwargs': {'task': 'par_bce_cls_emb', 'task_sp_list': ['loss.', 'predictor.query_feat', 'predictor.query_embed'], 'loss_weight': 1.0, 'transformer_predictor_cfg': {'hidden_dim': 256, 'num_queries': 20, 'nheads': 8, 'dim_feedforward': 2048, 'dec_layers': 9, 'pre_norm': False, 'arch': 'fan_in', 'enforce_input_project': False, 'mask_on': False, 'num_feature_levels': 1, 'cross_pos_embed': 'anchor', 'cls_out_dim': 1}, 'loss_cfg': {'type': 'FocalDiceLoss_bce_cls_emb_sample_weight', 'kwargs': {'cfg': {'deep_supervision': True, 'no_object_weight': 0.1, 'class_weight': 0.25, 'dice_weight': 5.0, 'mask_weight': 5.0, 'redundant_queries': 1, 'num_points': 12544, 'dec_layers': 9, 'oversample_ratio': 3.0, 'importance_sample_ratio': 0.75, 'sample_weight': [1.0, 0.25279349, 0.97595474, 0.06368458, 0.08419378, 0.91287129, 0.18341584, 0.50346535, 0.12729844, 0.6937058, 0.96898868, 0.07022631, 0.07464639, 0.99359972, 0.88490099, 0.88490099, 0.27644979000000003, 0.27644979000000003, 0.33016266, 0.33016266]}}}}}
+[rank 0] dataset of task0 has been overided to {'type': 'CIHPParsingDataset', 'kwargs': {'data_path': '/mnt/path...to.../CIHP', 'cfg': {'is_flip': True, 'crop_size': [480, 480], 'is_multi_scale': True, 'scale_factor': 11, 'center_crop_test': False, 'base_size': 480, 'eval_crop_size': [480, 480], 'is_photometricdistortion': True, 'brightness': 32, 'contrast_range': [0.5, 1.5], 'saturation_range': [0.5, 1.5], 'hue_delta': 18, 'is_rotate': True, 'ignore_value': 255, 'num_classes': 20, 'label_list': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}}}
+[rank 0] sampler of task0 has been overided to {'batch_size': 54, 'shuffle_strategy': 1}
+----------------------
+[rank 0] >> task_info.group[0] ranks [0]
+[rank 0] >> task_info.root_group ranks [0]
+[rank 0] >> task_info.backbone_share_group[[0]] ranks [0]
+[rank 0] >> task_info.neck_share_group[[0]] ranks [0]
+[rank 0] >> task_info.decoder_share_group[[0]] ranks [0]
+[rank 0] dataset of task0 has been overided to {'type': 'CIHPParsingDataset', 'kwargs': {'data_path': '/mnt/path...to.../CIHP', 'dataset': 'val', 'is_train': False, 'cfg': {'eval_crop_size': [480, 480], 'is_flip': False, 'is_multi_scale': False, 'ignore_value': 255, 'num_classes': 20, 'label_list': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}}}
+[rank 0] sampler of task0 has been overided to {'batch_size': 16}
+----------------------
+sync_print: rank 0, override tensor.cuda() to preserve task_specific flag
+Save to ip_data/results/UniHCP-CIHP/test_sample
+-- Loading val dataset of 8 images
+[rank 0] Position interpolate from (14, 14) to (84, 84)
+Missing keys: []
+
+finish load
+sync_print: rank 0, Number of conv/bn params: 0.59M
+sync_print: rank 0, Number of linear params: 85.02M
+aio_entry_v2(
+  (backbone_module): ViT(
+    (patch_embed): PatchEmbed(
+      (proj): Conv2d(3, 768, kernel_size=(16, 16), stride=(16, 16))
+    )
+    (blocks): ModuleList(
+      (0): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (1): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.0181818176060915)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (2): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.036363635212183)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (3): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.05454545468091965)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (4): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.072727270424366)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (5): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.09090908616781235)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (6): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.10909091681241989)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (7): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.12727272510528564)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (8): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.1454545557498932)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (9): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.16363637149333954)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (10): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.1818181872367859)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (11): Block(
+        (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (qkv): Linear(in_features=768, out_features=2304, bias=True)
+          (proj): Linear(in_features=768, out_features=768, bias=True)
+        )
+        (drop_path): DropPath(p=0.20000000298023224)
+        (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (act): GELU()
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (drop): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (ln_pre): Identity()
+    (norm): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+  )
+  (neck_module): SimpleNeck(
+    (mask_map): Sequential(
+      (0): ConvTranspose2d(768, 768, kernel_size=(2, 2), stride=(2, 2))
+      (1): Norm2d(
+        (ln): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+      )
+      (2): GELU()
+      (3): ConvTranspose2d(768, 256, kernel_size=(2, 2), stride=(2, 2))
+    )
+  )
+  (decoder_module): AIOHead(
+    (predictor): TransformerDecoder(
+      (pe_layer): Positional encoding PositionEmbeddingSine
+          num_pos_feats: 128
+          temperature: 10000
+          normalize: True
+          scale: 6.283185307179586
+      (transformer_self_attention_layers): ModuleList(
+        (0): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (1): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (2): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (3): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (4): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (5): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (6): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (7): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (8): SelfAttentionLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (transformer_cross_attention_layers): ModuleList(
+        (0): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (1): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (2): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (3): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (4): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (5): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (6): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (7): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (8): CrossAttentionLayer(
+          (multihead_attn): MultiheadAttention(
+            (out_proj): _LinearWithBias(in_features=256, out_features=256, bias=True)
+          )
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (transformer_ffn_layers): ModuleList(
+        (0): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (1): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (2): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (3): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (4): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (5): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (6): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (7): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+        (8): FFNLayer(
+          (linear1): Linear(in_features=256, out_features=2048, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=2048, out_features=256, bias=True)
+          (norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+        )
+      )
+      (decoder_norm): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (query_feat): Embedding(20, 256)
+      (query_embed): Embedding(20, 256)
+      (level_embed): Embedding(1, 256)
+      (input_proj): ModuleList(
+        (0): Conv2d(768, 256, kernel_size=(1, 1), stride=(1, 1))
+      )
+      (class_embed): Linear(in_features=256, out_features=1, bias=True)
+      (mask_embed): MLP(
+        (layers): ModuleList(
+          (0): Linear(in_features=256, out_features=256, bias=True)
+          (1): Linear(in_features=256, out_features=256, bias=True)
+          (2): Linear(in_features=256, out_features=256, bias=True)
+        )
+      )
+      (adapt_pos2d): Sequential(
+        (0): Linear(in_features=256, out_features=256, bias=True)
+        (1): ReLU()
+        (2): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+    (loss): FocalDiceLoss_bce_cls_emb_sample_weight(
+      (fd_loss): Criterion SetCriterion
+          matcher: Matcher DirectMatcher
+              cost_class: 1
+              cost_mask: 1
+              cost_dice: 1
+          losses: ['bce_labels', 'masks']
+          weight_dict: {'loss_bce': 0.25, 'loss_mask': 5.0, 'loss_dice': 5.0, 'loss_bce_0': 0.25, 'loss_mask_0': 5.0, 'loss_dice_0': 5.0, 'loss_bce_1': 0.25, 'loss_mask_1': 5.0, 'loss_dice_1': 5.0, 'loss_bce_2': 0.25, 'loss_mask_2': 5.0, 'loss_dice_2': 5.0, 'loss_bce_3': 0.25, 'loss_mask_3': 5.0, 'loss_dice_3': 5.0, 'loss_bce_4': 0.25, 'loss_mask_4': 5.0, 'loss_dice_4': 5.0, 'loss_bce_5': 0.25, 'loss_mask_5': 5.0, 'loss_dice_5': 5.0, 'loss_bce_6': 0.25, 'loss_mask_6': 5.0, 'loss_dice_6': 5.0, 'loss_bce_7': 0.25, 'loss_mask_7': 5.0, 'loss_dice_7': 5.0, 'loss_bce_8': 0.25, 'loss_mask_8': 5.0, 'loss_dice_8': 5.0}
+          num_classes: 20
+          eos_coef: 0.1
+          num_points: 12544
+          oversample_ratio: 3.0
+          importance_sample_ratio: 0.75
+    )
+  )
+)
+[rank 0] broadcasting backbone-specific param module.backbone_module.pos_embed	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.patch_embed.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.patch_embed.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.0.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.1.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.2.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.3.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.4.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.5.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.6.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.7.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.8.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.9.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.10.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.norm1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.norm1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.attn.qkv.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.attn.qkv.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.attn.proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.attn.proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.norm2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.norm2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.mlp.fc1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.mlp.fc1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.mlp.fc2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.blocks.11.mlp.fc2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.backbone_module.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.neck_module.mask_map.0.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.neck_module.mask_map.0.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.neck_module.mask_map.1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.neck_module.mask_map.1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.neck_module.mask_map.3.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting backbone-specific param module.neck_module.mask_map.3.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b770>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.0.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.0.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.0.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.0.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.0.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.0.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.1.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.1.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.1.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.1.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.1.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.1.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.2.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.2.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.2.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.2.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.2.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.2.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.3.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.3.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.3.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.3.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.3.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.3.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.4.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.4.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.4.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.4.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.4.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.4.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.5.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.5.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.5.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.5.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.5.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.5.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.6.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.6.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.6.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.6.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.6.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.6.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.7.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.7.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.7.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.7.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.7.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.7.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.8.self_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.8.self_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.8.self_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.8.self_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.8.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_self_attention_layers.8.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.0.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.0.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.0.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.0.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.0.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.0.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.1.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.1.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.1.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.1.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.1.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.1.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.2.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.2.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.2.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.2.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.2.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.2.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.3.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.3.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.3.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.3.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.3.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.3.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.4.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.4.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.4.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.4.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.4.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.4.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.5.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.5.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.5.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.5.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.5.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.5.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.6.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.6.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.6.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.6.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.6.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.6.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.7.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.7.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.7.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.7.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.7.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.7.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.8.multihead_attn.in_proj_weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.8.multihead_attn.in_proj_bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.8.multihead_attn.out_proj.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.8.multihead_attn.out_proj.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.8.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_cross_attention_layers.8.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.0.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.0.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.0.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.0.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.0.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.0.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.1.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.1.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.1.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.1.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.1.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.1.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.2.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.2.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.2.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.2.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.2.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.2.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.3.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.3.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.3.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.3.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.3.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.3.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.4.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.4.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.4.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.4.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.4.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.4.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.5.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.5.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.5.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.5.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.5.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.5.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.6.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.6.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.6.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.6.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.6.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.6.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.7.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.7.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.7.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.7.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.7.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.7.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.8.linear1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.8.linear1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.8.linear2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.8.linear2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.8.norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.transformer_ffn_layers.8.norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.decoder_norm.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.decoder_norm.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting task-specific param module.decoder_module.predictor.query_feat.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b670>
+[rank 0] broadcasting task-specific param module.decoder_module.predictor.query_embed.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b670>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.level_embed.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.input_proj.0.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.input_proj.0.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.class_embed.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.class_embed.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.mask_embed.layers.0.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.mask_embed.layers.0.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.mask_embed.layers.1.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.mask_embed.layers.1.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.mask_embed.layers.2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.mask_embed.layers.2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.adapt_pos2d.0.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.adapt_pos2d.0.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.adapt_pos2d.2.weight	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting decoder-specific param module.decoder_module.predictor.adapt_pos2d.2.bias	group=<torch.distributed.ProcessGroupNCCL object at 0x7f9f1296b630>
+[rank 0] broadcasting task-specific buffer module.decoder_module.loss.fd_loss.empty_weight
+-- Load checkpoint
+[rank 0] Recovering from checkpoints/coslr1e3_104k_b4324g88_h256_I2k_1_10_001_2I_fairscale_m256/ckpt_task4_iter_newest.pth.tar, keys=['step', 'state_dict', 'optimizer']
+[rank 0] ======= loading model state for task 0 ... =======
+[rank 0] load msg: <All keys matched successfully>
+  0%|          | 0/1 [00:00<?, ?it/s]single_gpu.py:259: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  pred = np.array(output, dtype=np.int)
+100%|██████████| 1/1 [00:00<00:00,  2.71it/s]100%|██████████| 1/1 [00:00<00:00,  2.28it/s]
+single_gpu.py:272: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  pred = np.array(output, dtype=np.int)
+Save to ip_data/results/UniHCP-CIHP/test_sample
+(128, 64)
