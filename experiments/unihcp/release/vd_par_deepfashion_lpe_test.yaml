@@ -1,0 +1,34 @@
+common:
+  backbone:
+    kwargs:
+      test_pos_mode: learnable_interpolate
+  tester:
+    type: TesterMultiTaskDev
+
+  sync: True
+  collate: dev
+
+# task_specific_param = ['backbone', 'neck', 'decoder', 'dataset', 'sampler', 'lr_scheduler', 'optimizer']
+tasks:
+  0:
+    name: ParTest
+    loss_weight: 1.0  # *redundant*
+    gres_ratio: 1  # int, > 0| world/sum*ratio, *redundant*
+    dataset:
+      type: DeepFashionParsingDataset
+      kwargs:
+        data_path: /mnt/path...to.../DeepFashion
+        dataset: val
+        is_train: False
+        cfg:
+          is_flip: False
+          is_multi_scale: False
+          
+    sampler:
+      batch_size: 16 # per card
+
+
+#    extra:
+#      min_sizes: [320, 480, 640, 800, 960, 1120]  # TTA
+#      max_size: 4480
+#      flip: True
